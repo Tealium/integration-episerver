@@ -1,0 +1,59 @@
+﻿@using Tealium.EPiServerTagManagement.Controllers
+@model Tealium.EPiServerTagManagement.Models.MainSettingsViewModel
+
+<div class="epi-padding Settings">
+    
+    <div class="epi-size25">
+        
+        @using (Html.BeginForm("ChangeSiteName", "UtagPlugin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                @Html.LabelFor(m => m.WebsiteName, Html.Translate("/utagplugin/websitename"))
+                @Html.DropDownListFor(x => x.WebsiteName, new SelectList(ViewBag.SitesList, "Value", "Key"), UtagPluginController.DefaultListString, new { onchange = "this.form.submit();" })
+            </div>
+        }
+        
+        @using (Html.BeginForm("ChangeLanguage", "UtagPlugin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(m => m.WebsiteName)
+            <div>
+                @Html.LabelFor(m => m.Language, Html.Translate("/utagplugin/language"))
+                @Html.DropDownListFor(x => x.Language, new SelectList(ViewBag.AvailableLanguages, "Value", "Key"), UtagPluginController.DefaultListString, new { onchange = "this.form.submit();" })
+            </div>
+        }
+
+        @using (Html.BeginForm("SaveMainSettings", "UtagPlugin", FormMethod.Post, new {enctype = "multipart/form-data"}))
+        {
+            <div>
+                @Html.LabelFor(m => m.Enabled, Html.Translate("/utagplugin/enable"))
+                @Html.CheckBoxFor(m => m.Enabled)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Account, Html.Translate("/utagplugin/account"))
+                @Html.TextBoxFor(m => m.Account)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Profile, Html.Translate("/utagplugin/profile"))
+                @Html.TextBoxFor(m => m.Profile)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Environment, Html.Translate("/utagplugin/environment"))
+                @Html.TextBoxFor(m => m.Environment)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.EnableUtagJs, Html.Translate("/utagplugin/enableutagjs"))
+                @Html.CheckBoxFor(m => m.EnableUtagJs)
+            </div>
+            
+            @Html.HiddenFor(x => x.WebsiteName)
+            @Html.HiddenFor(x => x.Language)
+            
+            <div class="epi-buttonContainer">
+                <span class="epi-cmsButton">
+                    <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" type="submit" 
+                           id="SaveMainSettingsButton" value="@Html.Translate("/utagplugin/save")" title="@Html.Translate("/utagplugin/save")" />
+                </span>
+            </div>
+        }
+    </div>
+</div>

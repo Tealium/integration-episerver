@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlloySite", "AlloySite\AlloySite.csproj", "{4FDBC16B-9B3A-4B12-8FA2-8610C3C71223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tealium.EPiServerTagManagement", "Tealium.EPiServerTagManagement\Tealium.EPiServerTagManagement.csproj", "{A30FCD45-428A-4B5C-BAE7-CF2976F130BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tealium.EPiServerTagManagement.Commerce", "Tealium.EPiServerTagManagement.Commerce\Tealium.EPiServerTagManagement.Commerce.csproj", "{D0D0C956-73AE-4C1B-B95C-DF78CE8591DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FDBC16B-9B3A-4B12-8FA2-8610C3C71223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FDBC16B-9B3A-4B12-8FA2-8610C3C71223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FDBC16B-9B3A-4B12-8FA2-8610C3C71223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FDBC16B-9B3A-4B12-8FA2-8610C3C71223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30FCD45-428A-4B5C-BAE7-CF2976F130BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30FCD45-428A-4B5C-BAE7-CF2976F130BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30FCD45-428A-4B5C-BAE7-CF2976F130BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30FCD45-428A-4B5C-BAE7-CF2976F130BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D0C956-73AE-4C1B-B95C-DF78CE8591DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D0C956-73AE-4C1B-B95C-DF78CE8591DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D0C956-73AE-4C1B-B95C-DF78CE8591DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D0C956-73AE-4C1B-B95C-DF78CE8591DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

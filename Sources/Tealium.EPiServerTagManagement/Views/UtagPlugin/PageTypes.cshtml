@@ -1,0 +1,65 @@
+﻿@using Tealium.EPiServerTagManagement.Business.Extensions
+@using Tealium.EPiServerTagManagement.Controllers
+@model Tealium.EPiServerTagManagement.Models.PageTypeViewModel
+
+<div class="epi-padding Settings">
+    
+    <div class="epi-size25">
+        <div>
+            @using (Html.BeginForm("LoadPageTypeData", "UtagPlugin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div>
+                    @Html.LabelFor(m => m.PageTypeName, Html.Translate("/utagplugin/pagetypename"))
+                    @Html.DropDownListFor(x => x.PageTypeName, new SelectList(ViewBag.PageTypes, "Value", "Key"), UtagPluginController.DefaultListString, new { onchange = "this.form.submit();" })
+                </div>
+                @Html.HiddenFor(x => x.WebsiteName)
+                @Html.HiddenFor(x => x.Language)
+            }
+        </div>
+        
+        @if (Model.PageTypeName.IsNotNullOrEmpty())
+        {
+            <br/>
+                using (Html.BeginForm("SavePageTypeTags", "UtagPlugin", FormMethod.Post, new { enctype = "multipart/form-data", id = "pagetypetagsForm" }))
+                {
+                    <table id="pagetypetagsTable" class="epi-default" cellspacing="0" style="border-style: None; border-collapse: collapse;">
+                        <tbody>
+                            <tr>
+                                <th scope="col">utag_name</th>
+                                <th scope="col">Property Name</th>
+                                <th scope="col"></th>
+                            </tr>
+                            @for (int i = 1; i <= Model.Tags.Count(); i++)
+                            {
+                                <tr id="row_@(i)">
+                                    <td><input type='text' name='utagKey_@(i)' value='@(Model.Tags.ElementAt(i-1).Key)' /></td>
+                                    <td><input type='text' name='utagValue_@(i)' value='@(Model.Tags.ElementAt(i-1).Value)' /></td>
+                                    <td><input type='button' class='epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Delete'
+                                               id='deletePagetypeTag' title='@Html.Translate("/utagplugin/delete")' />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="epi-buttonDefault">
+                        <span class="epi-cmsButton">
+                            <input type="button" id="pageTypeTagAdd" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Add"
+                                   title="@Html.Translate("/utagplugin/add")" value="@Html.Translate("/utagplugin/add")" />
+                        </span>
+                    </div>
+
+                    @Html.HiddenFor(x => x.WebsiteName)
+                    @Html.HiddenFor(x => x.Language)
+                    @Html.HiddenFor(x => x.PageTypeName)
+
+                    <div class="epi-buttonContainer">
+                        <span class="epi-cmsButton">
+                            <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" type="button" 
+                                   id="savePageTypeTagsButton" value="@Html.Translate("/utagplugin/save")" title="@Html.Translate("/utagplugin/save")" 
+                                   data-actionUrl="@Url.Action("SavePageTypeTags", "UtagPlugin")" />
+                        </span>
+                    </div>
+                }
+        }
+    </div>
+</div>

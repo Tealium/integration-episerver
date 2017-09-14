@@ -1,0 +1,36 @@
+﻿@model Tealium.EPiServerTagManagement.Models.CommonTagsViewModel
+
+<div class="epi-padding Settings">
+    <h2>Common properties</h2>
+    
+    @using (Html.BeginForm("SaveCommonTags", "UtagPlugin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table class="epi-default" cellspacing="0" style="border-style: None; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <th scope="col" style="width:30px">Enabled</th>
+                    <th scope="col">utag_name</th>
+                    <th scope="col">Property Name</th>
+                </tr>
+                @foreach (var item in Model.AllTags)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="checkboxTags" value="@item.Key" @(Model.SiteTags.Keys.Contains(item.Key) ? "checked='checked'" : string.Empty) /></td>
+                        <td>@item.Key</td>
+                        <td>@item.Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+         @Html.HiddenFor(x => x.WebsiteName)
+         @Html.HiddenFor(x => x.Language)
+        
+        <div class="epi-buttonContainer">
+            <span class="epi-cmsButton">
+                <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" type="submit" 
+                       id="SaveMainSettingsButton" value="@Html.Translate("/utagplugin/save")" title="@Html.Translate("/utagplugin/save")" />
+            </span>
+        </div>
+    }
+</div>

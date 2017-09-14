@@ -1,0 +1,12 @@
+﻿@using AlloySite
+@model AlloySite.Models.Catalog.FashionProduct
+
+@{ Layout = "~/Views/Shared/Layouts/_Products.cshtml"; }
+
+<h1 @Html.EditAttributes(x => x.Name)>@Model.Name</h1>
+<p class="introduction">@Model.SeoInformation.Title</p>
+<div class="row">
+    <div class="span8 clearfix">
+        @Html.DisplayFor(m => m.MainContent)
+    </div>
+</div>

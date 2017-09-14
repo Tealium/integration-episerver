@@ -1,0 +1,50 @@
+﻿@model Tealium.EPiServerTagManagement.Models.CustomTagsViewModel
+
+<div class="epi-padding Settings">
+    <h2>Custom Tags</h2>
+    
+    @using (Html.BeginForm("SaveCustomTags", "UtagPlugin", FormMethod.Post, new {enctype = "multipart/form-data", id = "customtagsForm" }))
+    {
+        <table id="customtagsTable" class="epi-default" cellspacing="0" style="border-style: None; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <th scope="col">utag_name</th>
+                    <th scope="col">value</th>
+                    <th scope="col"></th>
+                </tr>
+                @for (int i = 1; i <= Model.Tags.Count(); i++ )
+                {
+                    <tr id="row_@(i)">
+                        <td><input type='text' value='@(Model.Tags.ElementAt(i-1).Key)' /></td>
+                        <td><input type='text' value='@(Model.Tags.ElementAt(i-1).Value)' /></td>
+                        <td><input type='button' id='deleteCustomTag' class='epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Delete'
+                                   title='@Html.Translate("/utagplugin/delete")' /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="epi-buttonDefault">
+            <span class="epi-cmsButton">
+                <input type="button" id="customtagsAdd" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Add"
+                       title="@Html.Translate("/utagplugin/add")" value="@Html.Translate("/utagplugin/add")" />
+            </span>
+        </div>
+         
+        @Html.HiddenFor(x => x.WebsiteName)
+        @Html.HiddenFor(x => x.Language)
+
+        <div class="epi-buttonContainer">
+            <span class="epi-cmsButton">
+                <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" type="button" 
+                       id="saveCustomTagsButton" value="@Html.Translate("/utagplugin/save")" title="@Html.Translate("/utagplugin/save")" 
+                       data-actionUrl="@Url.Action("SaveCustomTags", "UtagPlugin")" />
+            </span>
+        </div>
+    }
+</div>
+
+<script>
+
+    
+
+</script>

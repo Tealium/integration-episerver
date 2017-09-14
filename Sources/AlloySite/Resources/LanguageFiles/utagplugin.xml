@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  
+  <language name="English" id="en">
+
+    <utagplugin>
+        <heading>Tealium Tag Management Configuration</heading>
+        <intro>Configuration settings for Tealium Tags.</intro>
+        <websitename>Website</websitename>
+        <language>Language</language>
+        <enable>Enable</enable>
+        <account>Account</account>
+        <profile>Profile</profile>
+        <environment>Environment</environment>
+        <enableutagjs>Enable utag.sync.js</enableutagjs>
+        <enablecustomudo>Enable custom UDO</enablecustomudo>
+        <save>Save</save>
+        <delete>Delete</delete>
+        <add>Add</add>
+        <pagetypename>Page Type</pagetypename>
+        <customudofile>Custom UDO Type - e.g. "MyAssemby.MyNamespace.MyComputedFieldMapper, MyAssembly"</customudofile>
+        <deleteTagConfirmMessage>Are you sure you want to delete the tag?</deleteTagConfirmMessage>
+    </utagplugin>
+    
+  </language>
+  
+</languages>

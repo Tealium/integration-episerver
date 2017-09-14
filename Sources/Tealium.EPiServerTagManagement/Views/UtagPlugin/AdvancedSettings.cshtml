@@ -1,0 +1,31 @@
+﻿@model Tealium.EPiServerTagManagement.Models.AdvancedSettingsViewModel
+
+<div class="epi-padding Settings">
+    
+    <div class="epi-size25">
+        
+        @using (Html.BeginForm("SaveAdvancedSettings", "UtagPlugin", FormMethod.Post, new {enctype = "multipart/form-data"}))
+        {
+            <div>
+                @Html.LabelFor(m => m.EnableCustomUdo, Html.Translate("/utagplugin/enablecustomudo"))
+                @Html.CheckBoxFor(m => m.EnableCustomUdo)
+            </div>
+            <div>
+                <span>@Html.Translate("/utagplugin/customudofile")</span>
+            </div>
+            <div>
+                @Html.TextBoxFor(m => m.CustomUdoAssembly, new { style="width:600px;"})
+            </div>
+            
+            @Html.HiddenFor(x => x.WebsiteName)
+            @Html.HiddenFor(x => x.Language)
+            
+            <div class="epi-buttonContainer">
+                <span class="epi-cmsButton">
+                    <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" type="submit" 
+                           id="SaveMainSettingsButton" value="@Html.Translate("/utagplugin/save")" title="@Html.Translate("/utagplugin/save")" />
+                </span>
+            </div>
+        }
+    </div>
+</div>

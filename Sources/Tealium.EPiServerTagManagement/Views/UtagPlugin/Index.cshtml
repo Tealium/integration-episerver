@@ -1,0 +1,179 @@
+@using Tealium.EPiServerTagManagement.Models
+@model Tealium.EPiServerTagManagement.Models.UtagPluginViewModel
+
+@{
+    Layout = "Shared/Layout.cshtml";
+}
+
+<div class="epi-contentContainer epi-padding">
+    <div>
+        <h1>@Html.Translate("/utagplugin/heading")</h1>
+    </div>
+    
+    <div class="epi-formArea preamble">
+        <p>
+            @Html.Translate("/utagplugin/intro")
+        </p>
+    </div>
+    
+    <div data-plugin-message class="EP-systemMessage EP-systemMessage-None" style="@(ViewBag.ActionMessage == null ? "display: none;" : "display: block;")">
+        @ViewBag.ActionMessage
+    </div>
+
+    <div class="epi-formArea">
+        
+        <div class="epi-tabView">
+            <ul class="epi-tabView-navigation">
+                <li id="tabSettings" class="@(Model.ActiveTab == UtagPluginTab.MainConfiguration.ToString() ? "epi-tabView-navigation-item-selected" : "epi-tabView-navigation-item")">
+                    <a class="epi-tabView-tab" href="javascript:void(0)" target="_self">Main Setting</a>
+                </li>
+                
+                <li id="tabAdvancedSettings" class="@(Model.ActiveTab == UtagPluginTab.AdvancedSettings.ToString() ? "epi-tabView-navigation-item-selected" : "epi-tabView-navigation-item")">
+                    <a class="epi-tabView-tab" href="javascript:void(0)" target="_self">Advanced Setting</a>
+                </li>
+        
+                <li id="tabCMS" class="@(Model.ActiveTab == UtagPluginTab.Cms.ToString() ? "epi-tabView-navigation-item-selected" : "epi-tabView-navigation-item")">
+                    <a class="epi-tabView-tab" href="javascript:void(0)" target="_self">Content Types</a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="FullRegion_pnlTabs">
+            <!--MainSettings-->
+            <div id="FullRegion_pnlSettings" class="epi-padding" data-tabcontent="tabSettings"
+                 style="@(Model.ActiveTab == UtagPluginTab.MainConfiguration.ToString() ? "display:block;" : "display:none;")">
+        
+                @{ Html.RenderPartial("MainSettings", Model.MainConfiguration); }
+                
+                @{ Html.RenderPartial("CommonTags", Model.CommonTags); }
+                
+                @{ Html.RenderPartial("CustomTags", Model.CustomTags); }
+
+            </div>
+            <input type="hidden" id="deleteTagConfirmMessage" value="@Html.Translate("/utagplugin/deleteTagConfirmMessage")"/>
+
+            <!--AdvancedSettings-->
+            <div id="FullRegion_pnlAdvancedSettings" class="epi-padding" data-tabcontent="tabAdvancedSettings" 
+                 style="@(Model.ActiveTab == UtagPluginTab.AdvancedSettings.ToString() ? "display:block;" : "display:none;")">
+                @{ Html.RenderPartial("AdvancedSettings", Model.AdvancedSettings); }
+            </div>
+
+            <!--CMS-->
+            <div id="FullRegion_pnlCMS" class="epi-padding" data-tabcontent="tabCMS" 
+                 style="@(Model.ActiveTab == UtagPluginTab.Cms.ToString() ? "display:block;" : "display:none;")">
+                @{ Html.RenderPartial("PageTypes", Model.PageTypeTags); }
+            </div>
+        </div>
+    </div>
+        
+</div>
+
+<script>
+
+    $(function () {
+        'use strict';
+
+        //// Tabs
+        var switchTab = function () {
+            var tabname = $(this).attr("id");
+
+            $(this).siblings().removeClass('epi-tabView-navigation-item-selected').addClass('epi-tabView-navigation-item');
+            $(this).removeClass('epi-tabView-navigation-item').addClass('epi-tabView-navigation-item-selected');
+
+            $('[data-tabcontent]').css({ "display": "none" });
+            $("[data-tabcontent='" + tabname + "']").css({ "display": "block" });
+        };
+
+        $('.epi-tabView-navigation li').click(switchTab);
+        //// Tabs
+
+
+        //// General
+        var callSaveTags = function (element, tableName, formName) {
+            var tags = "";
+            var $this = $(element);
+
+            $("#" + tableName + " tr").each(function (index, element) {
+                var $inputs = $(element).find('input[type="text"]');
+
+                if ($inputs != null && $inputs != undefined && $inputs.length) {
+                    var key = $inputs[0].value;
+                    var value = $inputs[1].value;
+                    if (key != null && key !== undefined && value != null && value !== undefined
+                        && key !== "" && value != "") {
+                        tags += "&tags=" + key.replace(":", "") + ":" + value.replace(":", "");
+                    }
+                }
+            });
+
+            var data = $("#" + formName).serialize();
+            data += tags;
+
+            var actionUrl = $this.attr("data-actionUrl");
+
+            $.ajax({
+                url: actionUrl,
+                type: 'POST',
+                data: data,
+                success: function (result) {
+                    var $messageElem = $("[data-plugin-message]");
+                    $messageElem.html("");
+
+                    if (result != undefined) {
+                        var obj = JSON.parse(result);
+                        $messageElem.html(obj.ActionMessage);
+                        $messageElem.css({ "display": "block" });
+                    } else {
+                        $messageElem.css({ "display": "none" });
+                    }
+                }
+            });
+        };
+
+        var addRowCustomTag = function (tableName, deleteButtonId) {
+            var $table = $("#" + tableName);
+            var row = $('#' + tableName + ' tr').length + 1;
+
+            $table.find('tbody').append("<tr><td><input type='text' value='' /></td><td><input type='text' value='' /></td><td><input type='button' id='" + deleteButtonId + "' class='epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Delete' title='delete' /></td></tr>");
+        };
+
+        var deleteTagRowConfirm = function () {
+            var message = $("#deleteTagConfirmMessage").val();
+            if (confirm(message)) {
+                $(this).parent().parent().remove();
+                return true;
+            } else {
+                return false;
+            }
+        };
+        //// General
+
+
+        //// Custom Tags
+        //$('#customtagsAdd').click({ tableName: 'customtagsTable', deleteButtonId: 'deleteCustomTag' }, addRowCustomTag);
+        $('#customtagsAdd').click(function () {
+            addRowCustomTag('customtagsTable', 'deleteCustomTag');
+        });
+
+        $('#deleteCustomTag').live('click', deleteTagRowConfirm);
+
+        $("#saveCustomTagsButton").click(function () {
+            callSaveTags(this, "customtagsTable", "customtagsForm");
+        });
+        //// Custom Tags
+
+        ////PageTypes
+        //$('#pageTypeTagAdd').click({ tableName: 'pagetypetagsTable', deleteButtonId: 'deletePagetypeTag' }, addRowCustomTag);
+        $('#pageTypeTagAdd').click(function () {
+            addRowCustomTag('pagetypetagsTable', 'deletePagetypeTag');
+        });
+
+        $('#deletePagetypeTag').live('click', deleteTagRowConfirm);
+
+        $("#savePageTypeTagsButton").click(function () {
+            callSaveTags(this, "pagetypetagsTable", "pagetypetagsForm");
+        });
+        ////PageTypes
+    });
+
+</script>
